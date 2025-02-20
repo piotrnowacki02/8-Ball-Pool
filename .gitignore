@@ -1,0 +1,8 @@
+# Ignorowanie katalogów generowanych przez CMake
+/build/
+
+# Ignorowanie folderu konfiguracji edytora
+/.vscode/
+
+
+
