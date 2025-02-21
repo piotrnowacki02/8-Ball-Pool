@@ -53,4 +53,6 @@ To run the project i usually just click the icon "launch" but you can also do it
 ```
 
 
+## Short video showcasing the functionality
+[Watch the video](https://github.com/user-attachments/assets/99c53509-442b-4347-b716-db17671e1977)
 
