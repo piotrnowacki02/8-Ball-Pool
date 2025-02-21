@@ -4,15 +4,17 @@
 #include "Table.hpp"
 #include "Wall.hpp"
 #include "Pot.hpp"
+#include "GraphicElement.hpp"
 
 #pragma once
+
 //radius = 20
-class Ball
+class Ball : GraphicElement
 {
     private:
+        static sf::SoundBuffer ball2ball;
+
         int number;
-        double pos_x;
-        double pos_y;
         bool visible;
         sf::Vector2f velocity;
     
@@ -37,7 +39,7 @@ class Ball
         //drawing and updating
         void Draw(sf::RenderWindow* window);
         void Update(sf::Time time, Table table);
-        // void CollisionSound();
+        void CollisionSound();
 
         //physical events
         void Collision(Ball* other_ball);
@@ -47,5 +49,7 @@ class Ball
         void ballPotted(Pot pots[6]);
         void applyImpulse(sf::Vector2f impulse, sf::Vector2f offset);
 
+        // Sounds
+        static void initializeSounds();
 };
 

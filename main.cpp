@@ -14,6 +14,7 @@
 #include "Cue.hpp"
 #include "Pot.hpp"
 #include "GameSet.hpp"
+#include "GraphicElement.hpp"
 
 using namespace std;
 using namespace sf;
@@ -39,6 +40,7 @@ int main()
     window.setFramerateLimit(300);
     Event event;
     GameSet gameSet = GameSet();
+    Ball::initializeSounds();
     while (window.isOpen())
     {
         sf::Time elapsed = clock.restart();

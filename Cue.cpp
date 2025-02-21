@@ -21,16 +21,6 @@ Cue::Cue(double pos_x, double pos_y)
     this->isAnimationOn = false;
 }
 
-double Cue::getX()
-{
-    return this->pos_x;
-}
-
-double Cue::getY()
-{
-    return this->pos_y;
-}
-
 double Cue::getAngle()
 {
     return this->angle;
@@ -68,7 +58,7 @@ void Cue::Draw(sf::RenderWindow* window)
     if(!this->isVisible)
         return;
     sf::Texture texture;
-    texture.loadFromFile("Textures/cue.png");
+    texture.loadFromFile("./../../Textures/cue.png");
     sf::Sprite sprite(texture);
     sprite.setPosition(this->pos_x, this->pos_y);
     sprite.setRotation(this->angle); //0 = left, 90 = up, 180 = right, 270 = down
@@ -99,7 +89,7 @@ void Cue::Update(sf::RenderWindow* window, Ball* cue_ball, bool justDoIt)//just 
 
 void Cue::Update(sf::RenderWindow* window, Ball* cue_ball)//general Update, including animation and hitting
 {
-    printf("TIME = %I64d \n", this->animationClock.getElapsedTime().asMicroseconds());
+    //printf("TIME = %I64d \n", this->animationClock.getElapsedTime().asMicroseconds());
     if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
         this->Update(window, cue_ball, true);
@@ -118,7 +108,7 @@ void Cue::Update(sf::RenderWindow* window, Ball* cue_ball)//general Update, incl
                 angle = ((this->getAngle() - 180)*3.14159265359)/180;
             double x = force*cos(angle);
             double y = force*sin(angle);
-            printf("PERC = %f \n", percentOfAnimation);
+            //printf("PERC = %f \n", percentOfAnimation);
             x *= percentOfAnimation;
             y *= percentOfAnimation;
             sf::Vector2f originalPosition;
@@ -148,7 +138,7 @@ void Cue::Update(sf::RenderWindow* window, Ball* cue_ball)//general Update, incl
                 angle = ((this->getAngle() - 180)*3.14159265359)/180;
             double x = force*cos(angle);
             double y = force*sin(angle);
-            printf("PERC = %f \n", percentOfAnimation);
+            //printf("PERC = %f \n", percentOfAnimation);
             x *= percentOfAnimation;
             y *= percentOfAnimation;
             sf::Vector2f edgeOfBall;
@@ -173,10 +163,6 @@ void Cue::Update(sf::RenderWindow* window, Ball* cue_ball)//general Update, incl
     }
 }
 
-// double animationFunction(double percOfAnimation)
-// {
-//     return 
-// }
 
 void Cue::Hit(sf::RenderWindow* window, Ball* cue_ball)
 {

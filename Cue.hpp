@@ -2,14 +2,13 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics.hpp>
 #include "Ball.hpp"
+#include "GraphicElement.hpp"
 
 #pragma once
 
-class Cue
+class Cue : GraphicElement
 {
     private:
-        double pos_x;
-        double pos_y;
         double angle;
         bool isVisible;
         bool isAnimationOn;
@@ -19,9 +18,7 @@ class Cue
         Cue();
         Cue(double pos_x, double pos_y);
 
-        //getters
-        double getX();
-        double getY();
+        //gettery
         double getAngle();
 
         //setter
@@ -36,5 +33,4 @@ class Cue
         void Hit(sf::RenderWindow* window, Ball* cue_ball);
         void Update(sf::RenderWindow* window, Ball* cue_ball, bool justDoIt);
         void Update(sf::RenderWindow* window, Ball* cue_ball);
-        // double animationFunction(double percOfAnimation);
 };

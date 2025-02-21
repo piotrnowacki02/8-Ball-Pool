@@ -8,6 +8,8 @@
 #include "Pot.hpp"
 #include "Wall.hpp"
 
+sf::SoundBuffer Ball::ball2ball;
+
 Ball::Ball()
 {
     this->visible = true;
@@ -82,22 +84,12 @@ void Ball::setVelocity(sf::Vector2f v)
 void Ball::Draw(sf::RenderWindow* window)
 {
     sf::Texture texture;
-    texture.loadFromFile("Textures/"+std::to_string(this->number)+".png");
+    texture.loadFromFile("./../../Textures/"+std::to_string(this->number)+".png");
     sf::Sprite sprite(texture);
     sprite.setPosition(this->pos_x, this->pos_y);
     sprite.setScale(0.2, 0.2);
     window->draw(sprite);
 }
-
-// void Ball::CollisionSound()
-// {
-//     sf::SoundBuffer buffer;
-//     if (!buffer.loadFromFile("Sounds/ballCollision.wav"))
-//     throw new std::runtime_error("Could not load from file");
-//     sf::Sound sound;
-//     sound.setBuffer(buffer);
-//     sound.play();
-// }
 
 void Ball::Update(sf::Time time, Table table)
 {
@@ -126,15 +118,7 @@ void Ball::Update(sf::Time time, Table table)
 
 void Ball::Collision(Ball* other_ball)
 {
-    double distance = std::sqrt(std::pow(this->getX()-other_ball->getX(),2)+std::pow(this->getY()-other_ball->getY(),2));
-    //THE OLD WAY
-    // double nx = (other_ball->getX() - this->getX())/distance;
-    // double ny = (other_ball->getY() - this->getY())/distance;
-    // double p = (this->getVelocity().x * nx + this->getVelocity().y * ny - other_ball->getVelocity().x * nx - other_ball->getVelocity().y * ny);
-    // this->velocity = sf::Vector2f(this->getVelocity().x - p * nx, this->getVelocity().y - p * ny);
-    // other_ball->velocity = sf::Vector2f(other_ball->getVelocity().x + p * nx, other_ball->getVelocity().y + p * ny);
-    //
-    //THE NEW WAY (PATRYK WAY)
+    double distance = this->distance(other_ball);
     sf::Vector2f normal;
     normal.x = (other_ball->pos_x - this->pos_x)/distance;
     normal.y = (other_ball->pos_y - this->pos_y)/distance;
@@ -175,11 +159,21 @@ bool Ball::doTheyCollide(Ball* other_ball)
 {
     double sum_of_radii = 20 + 20; // Suma promieni dwóch kul
     // double distance = std::sqrt(std::pow(((this->pos_x + this->velocity.x/30)- (other_ball->getX()+other_ball->getVelocity().x)), 2) + std::pow(((this->pos_y + this->velocity.y/30)- (other_ball->getY()+other_ball->getVelocity().y)), 2));
-    double distance = std::sqrt(std::pow((this->pos_x - other_ball->getX()), 2) + std::pow((this->pos_y - other_ball->getY()), 2));
+    double distance = this->distance(other_ball);
 
+    static std::vector<sf::Sound> sounds;
+    
+    if(sounds.size() > 0 && !(sounds.front().getStatus() == sf::SoundSource::Status::Playing))
+        sounds.erase(sounds.begin());
+    
     if (distance <= sum_of_radii)
     {
         // this->CollisionSound();
+        sounds.emplace_back();
+        sf::Sound& sound = sounds.back();
+        sound.setBuffer(ball2ball);
+        sound.play();
+
         return true;
     }
     return false;
@@ -189,7 +183,7 @@ void Ball::ballPotted(Pot pots[6])
 {
     for(int i = 0; i < 6; i++)
     {
-        double distance = std::sqrt(std::pow(pots[i].getPosX() - this->pos_x,2) + std::pow(pots[i].getPosY() - this->pos_y,2));
+        double distance = std::sqrt(std::pow(pots[i].getX() - this->pos_x,2) + std::pow(pots[i].getY() - this->pos_y,2));
         if(distance < 30)
         {
             this->visible = false;
@@ -250,4 +244,10 @@ void Ball::applyImpulse(sf::Vector2f impulse, sf::Vector2f offset)
 {
     this->setVelocity(this->getVelocity() + impulse);
     //rotational optional
+}
+
+void Ball::initializeSounds()
+{
+    if (!ball2ball.loadFromFile("./../../Sounds/ballCollision.wav"))
+        throw new std::runtime_error("Could not load from file");
 }

@@ -15,12 +15,11 @@ Pot::Pot(double x, double y)
     this->pos_y = y;
 }
 
-double Pot::getPosX()
+double Pot::getX()
 {
     return this->pos_x;
 }
-
-double Pot::getPosY()
+double Pot::getY()
 {
     return this->pos_y;
 }

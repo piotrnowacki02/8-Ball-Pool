@@ -1,6 +1,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics.hpp>
+#include "GraphicElement.hpp"
 
 #pragma once
 
@@ -13,9 +14,8 @@ class Pot
         Pot();
         Pot(double x, double y);
 
-        //gettery
-        double getPosX();
-        double getPosY();
+        double getX();
+        double getY();
 
         void Draw(sf::RenderWindow* window);
 

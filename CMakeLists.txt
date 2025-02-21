@@ -11,8 +11,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(GLOB sources "*.cpp")
 add_executable(Gra ${sources})
-target_link_libraries(Gra PRIVATE sfml-graphics)
-target_link_libraries(sfml-audio)
+target_link_libraries(Gra PRIVATE sfml-graphics sfml-audio)
 target_compile_features(Gra PRIVATE cxx_std_17)
 if (WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(TARGET Gra POST_BUILD 
